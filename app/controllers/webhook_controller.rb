@@ -1,7 +1,7 @@
 class WebhookController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  CHANNEL = '#line_bot'
+  CHANNEL = '#linebot'
 
   def callback
     body = request.body.read
