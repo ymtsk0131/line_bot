@@ -15,22 +15,19 @@ class WebhookController < ApplicationController
     events.each do |event|
       res = line_client.get_profile(event['source']['userId'])
       user_profile = JSON.parse(res.body)
-      p user_profile
-      p user_profile['displayName']
-      p user_profile.displayName
-      # case event
-      # when Line::Bot::Event::Message
-      #   case event.type
-      #   when Line::Bot::Event::MessageType::Text
-      #     post_message(event.message['text'])
-      #   when Line::Bot::Event::MessageType::Image
-      #     post_message('写真が送信されました。')
-      #   when Line::Bot::Event::MessageType::Video
-      #     post_message('ビデオが送信されました。')
-      #   when Line::Bot::Event::MessageType::Sticker
-      #     post_message('スタンプが送信されました。')
-      #   end
-      # end
+      case event
+      when Line::Bot::Event::Message
+        case event.type
+        when Line::Bot::Event::MessageType::Text
+          post_message("#{user_profile['displayName']} > #{event.message['text']}")
+        when Line::Bot::Event::MessageType::Image
+          post_message('写真が送信されました。')
+        when Line::Bot::Event::MessageType::Video
+          post_message('ビデオが送信されました。')
+        when Line::Bot::Event::MessageType::Sticker
+          post_message('スタンプが送信されました。')
+        end
+      end
     end
 
     head :ok
