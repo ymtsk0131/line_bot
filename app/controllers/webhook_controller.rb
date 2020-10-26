@@ -15,7 +15,7 @@ class WebhookController < ApplicationController
     events.each do |event|
       case event
       when Line::Bot::Event::Message
-        post_message("To: @y.mtsk\nFrom: #{sender_name(event)}\n#{message_text(event)}")
+        post_message("#{sender_name(event)} > <@U01D5Q3QK61>\n#{message_text(event)}")
       end
     end
 
