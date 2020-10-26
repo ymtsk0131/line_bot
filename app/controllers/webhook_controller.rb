@@ -13,19 +13,20 @@ class WebhookController < ApplicationController
 
     events = line_client.parse_events_from(body)
     events.each do |event|
-      case event
-      when Line::Bot::Event::Message
-        case event.type
-        when Line::Bot::Event::MessageType::Text
-          post_message(event.message['text'])
-        when Line::Bot::Event::MessageType::Image
-          post_message('写真が送信されました。')
-        when Line::Bot::Event::MessageType::Video
-          post_message('ビデオが送信されました。')
-        when Line::Bot::Event::MessageType::Sticker
-          post_message('スタンプが送信されました。')
-        end
-      end
+      p event
+      # case event
+      # when Line::Bot::Event::Message
+      #   case event.type
+      #   when Line::Bot::Event::MessageType::Text
+      #     post_message(event.message['text'])
+      #   when Line::Bot::Event::MessageType::Image
+      #     post_message('写真が送信されました。')
+      #   when Line::Bot::Event::MessageType::Video
+      #     post_message('ビデオが送信されました。')
+      #   when Line::Bot::Event::MessageType::Sticker
+      #     post_message('スタンプが送信されました。')
+      #   end
+      # end
     end
 
     head :ok
