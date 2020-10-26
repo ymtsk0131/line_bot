@@ -14,7 +14,7 @@ class WebhookController < ApplicationController
     events = line_client.parse_events_from(body)
     events.each do |event|
       res = line_client.get_profile(event['source']['userId'])
-      user_profile = res.body
+      user_profile = JSON.parse(res.body)
       p user_profile
       p user_profile['displayName']
       p user_profile.displayName
