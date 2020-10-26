@@ -13,7 +13,8 @@ class WebhookController < ApplicationController
 
     events = line_client.parse_events_from(body)
     events.each do |event|
-      p line_client.get_profile(event['source']['userId'])
+      res = line_client.get_profile(event['source']['userId'])
+      print res.body
       # case event
       # when Line::Bot::Event::Message
       #   case event.type
