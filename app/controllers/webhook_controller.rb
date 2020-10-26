@@ -15,16 +15,7 @@ class WebhookController < ApplicationController
     events.each do |event|
       case event
       when Line::Bot::Event::Message
-        case event.type
-        when Line::Bot::Event::MessageType::Text
-          post_message(event.message['text'])
-        when Line::Bot::Event::MessageType::Image
-          post_message('写真が送信されました。')
-        when Line::Bot::Event::MessageType::Video
-          post_message('ビデオが送信されました。')
-        when Line::Bot::Event::MessageType::Sticker
-          post_message('スタンプが送信されました。')
-        end
+        post_message("<From: #{sender_name(event)}>\n#{message_text(event)}")
       end
     end
 
@@ -35,5 +26,24 @@ class WebhookController < ApplicationController
 
   def post_message(text)
     slack_client.chat_postMessage(channel: CHANNEL, text: text)
+  end
+
+  def sender_name(event)
+    res = line_client.get_profile(event['source']['userId'])
+    user_profile = JSON.parse(res.body)
+    user_profile['displayName']
+  end
+
+  def message_text(event)
+    case event.type
+    when Line::Bot::Event::MessageType::Text
+      event.message['text']      
+    when Line::Bot::Event::MessageType::Image
+      '写真が送信されました。'
+    when Line::Bot::Event::MessageType::Video
+      'ビデオが送信されました。'
+    when Line::Bot::Event::MessageType::Sticker
+      'スタンプが送信されました。'
+    end  
   end
 end
