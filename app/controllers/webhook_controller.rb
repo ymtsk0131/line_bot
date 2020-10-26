@@ -19,7 +19,7 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          post_message("#{user_profile['displayName']} > #{event.message['text']}")
+          post_message("From: #{user_profile['displayName']}\n#{event.message['text']}")
         when Line::Bot::Event::MessageType::Image
           post_message('写真が送信されました。')
         when Line::Bot::Event::MessageType::Video
